@@ -276,7 +276,7 @@ function initSearch() {
   let searchData = [];
   
   // Fetch search data
-  fetch('/search.json')
+  fetch('/assets/data/search.json') 
     .then(response => response.json())
     .then(data => {
       searchData = data;

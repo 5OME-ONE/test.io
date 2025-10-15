@@ -1,0 +1,10 @@
+[
+  {
+    "title": "Sample Post",
+    "url": "/blog/2024/01/15/sample-post/",
+    "date": "January 15, 2024",
+    "category": "malware-reports",
+    "tags": ["malware", "analysis"],
+    "content": "This is sample content for testing search functionality..."
+  }
+]

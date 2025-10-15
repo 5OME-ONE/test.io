@@ -13,6 +13,8 @@ A comprehensive cybersecurity blog built with Jekyll and GitHub Pages.
 ### Local Development
 
 1. Clone the repository:
-```bash
+
+```sh
 git clone https://github.com/yourusername/cybersec-blog.git
 cd cybersec-blog
+```

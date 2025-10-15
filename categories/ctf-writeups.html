@@ -1,0 +1,345 @@
+---
+layout: page
+title: CTF & Challenge Writeups
+description: Detailed solutions and explanations for Capture The Flag challenges
+---
+
+<div class="category-page ctf-page">
+  <div class="category-header">
+    <div class="category-icon">
+      <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"></path>
+        <line x1="4" y1="22" x2="4" y2="15"></line>
+      </svg>
+    </div>
+    <h1>{{ page.title }}</h1>
+    <p class="category-description">{{ page.description }}</p>
+    <div class="category-stats">
+      {% assign category_posts = site.posts | where: "category", "ctf-writeups" %}
+      <div class="stat-item">
+        <strong>{{ category_posts.size }}</strong>
+        <span>Writeups</span>
+      </div>
+      <div class="stat-item">
+        <strong>{% assign unique_ctfs = category_posts | map: "ctf_name" | uniq | size %}{{ unique_ctfs }}</strong>
+        <span>CTF Events</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- CTF Categories Filter -->
+  <div class="filter-bar">
+    <div class="filter-group">
+      <label>Category:</label>
+      <div class="button-group" id="category-filter">
+        <button class="filter-btn active" data-category="all">All</button>
+        <button class="filter-btn" data-category="web">Web</button>
+        <button class="filter-btn" data-category="pwn">Pwn</button>
+        <button class="filter-btn" data-category="crypto">Crypto</button>
+        <button class="filter-btn" data-category="forensics">Forensics</button>
+        <button class="filter-btn" data-category="reverse">Reverse</button>
+        <button class="filter-btn" data-category="misc">Misc</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="posts-list" id="posts-container">
+    {% if category_posts.size == 0 %}
+      <div class="no-posts">
+        <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10"></circle>
+          <line x1="12" y1="8" x2="12" y2="12"></line>
+          <line x1="12" y1="16" x2="12.01" y2="16"></line>
+        </svg>
+        <h3>No CTF writeups yet</h3>
+        <p>Check back soon for challenge solutions!</p>
+      </div>
+    {% else %}
+      {% for post in category_posts %}
+        <article class="post-item ctf-item" 
+                 data-ctf-category="{% if post.ctf_category %}{{ post.ctf_category | downcase }}{% else %}misc{% endif %}"
+                 data-tags="{{ post.tags | join: ',' | downcase }}">
+          <div class="ctf-badge-container">
+            {% if post.ctf_category %}
+              <span class="ctf-category-badge ctf-{{ post.ctf_category | downcase }}">
+                {{ post.ctf_category }}
+              </span>
+            {% endif %}
+            {% if post.points %}
+              <span class="ctf-points-badge">{{ post.points }} pts</span>
+            {% endif %}
+          </div>
+          
+          <div class="post-item-content">
+            <div class="post-item-header">
+              <div class="post-title-group">
+                {% if post.ctf_name %}
+                  <div class="ctf-event-name">{{ post.ctf_name }}</div>
+                {% endif %}
+                <h2><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h2>
+                <time datetime="{{ post.date | date_to_xmlschema }}">
+                  {{ post.date | date: "%B %d, %Y" }}
+                </time>
+              </div>
+            </div>
+            
+            <p class="post-item-excerpt">{{ post.excerpt | strip_html | truncate: 180 }}</p>
+            
+            {% if post.tags %}
+              <div class="post-item-tags">
+                {% for tag in post.tags limit: 5 %}
+                  <span class="tag">{{ tag }}</span>
+                {% endfor %}
+              </div>
+            {% endif %}
+            
+            <div class="post-item-footer">
+              <div class="post-item-meta">
+                {% if post.difficulty %}
+                  <span class="meta-item difficulty-{{ post.difficulty | downcase }}">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                      <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                    </svg>
+                    {{ post.difficulty }}
+                  </span>
+                {% endif %}
+                
+                <span class="meta-item">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <polyline points="12 6 12 12 16 14"></polyline>
+                  </svg>
+                  {{ post.content | number_of_words | divided_by: 200 | plus: 1 }} min read
+                </span>
+              </div>
+              
+              <a href="{{ post.url | relative_url }}" class="read-more">
+                Read Writeup 
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                  <line x1="5" y1="12" x2="19" y2="12"></line>
+                  <polyline points="12 5 19 12 12 19"></polyline>
+                </svg>
+              </a>
+            </div>
+          </div>
+        </article>
+      {% endfor %}
+    {% endif %}
+  </div>
+
+  <!-- CTF Resources -->
+  <div class="ctf-resources">
+    <h3>Helpful Resources</h3>
+    <div class="resource-grid">
+      <a href="https://ctftime.org" target="_blank" class="resource-card">
+        <h4>CTFtime</h4>
+        <p>Find upcoming CTF events</p>
+      </a>
+      <a href="https://picoctf.org" target="_blank" class="resource-card">
+        <h4>PicoCTF</h4>
+        <p>Beginner-friendly CTF platform</p>
+      </a>
+      <a href="https://hackthebox.com" target="_blank" class="resource-card">
+        <h4>HackTheBox</h4>
+        <p>Practice penetration testing</p>
+      </a>
+      <a href="https://tryhackme.com" target="_blank" class="resource-card">
+        <h4>TryHackMe</h4>
+        <p>Guided cybersecurity training</p>
+      </a>
+    </div>
+  </div>
+</div>
+
+<style>
+.ctf-page .category-icon {
+  animation: wave 2s ease-in-out infinite;
+}
+
+@keyframes wave {
+  0%, 100% { transform: rotate(-5deg); }
+  50% { transform: rotate(5deg); }
+}
+
+.ctf-badge-container {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  display: flex;
+  gap: 0.5rem;
+  z-index: 1;
+}
+
+.ctf-item {
+  position: relative;
+}
+
+.ctf-category-badge {
+  padding: 0.375rem 0.75rem;
+  border-radius: var(--border-radius);
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: white;
+}
+
+.ctf-web { background-color: #3b82f6; }
+.ctf-pwn { background-color: #ef4444; }
+.ctf-crypto { background-color: #8b5cf6; }
+.ctf-forensics { background-color: #10b981; }
+.ctf-reverse { background-color: #f59e0b; }
+.ctf-misc { background-color: #6b7280; }
+
+.ctf-points-badge {
+  padding: 0.375rem 0.75rem;
+  background-color: var(--color-primary);
+  color: white;
+  border-radius: var(--border-radius);
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.ctf-event-name {
+  font-size: 0.875rem;
+  color: var(--color-primary);
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+}
+
+.button-group {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.filter-btn {
+  padding: 0.5rem 1rem;
+  border: 1px solid var(--color-border);
+  background-color: var(--color-surface);
+  color: var(--color-text);
+  border-radius: var(--border-radius);
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.filter-btn:hover {
+  background-color: var(--color-bg-secondary);
+  border-color: var(--color-primary);
+}
+
+.filter-btn.active {
+  background-color: var(--color-primary);
+  color: white;
+  border-color: var(--color-primary);
+}
+
+.post-item-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--color-border);
+}
+
+.difficulty-easy { color: #10b981; }
+.difficulty-medium { color: #f59e0b; }
+.difficulty-hard { color: #ef4444; }
+
+.ctf-resources {
+  margin-top: 4rem;
+  padding-top: 3rem;
+  border-top: 1px solid var(--color-border);
+}
+
+.ctf-resources h3 {
+  font-size: 1.5rem;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.resource-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+}
+
+.resource-card {
+  padding: 1.5rem;
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius-lg);
+  text-align: center;
+  transition: var(--transition);
+  color: var(--color-text);
+}
+
+.resource-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-md);
+  border-color: var(--color-primary);
+}
+
+.resource-card h4 {
+  margin-bottom: 0.5rem;
+  color: var(--color-primary);
+}
+
+.resource-card p {
+  font-size: 0.875rem;
+  color: var(--color-text-secondary);
+}
+
+@media (max-width: 768px) {
+  .ctf-badge-container {
+    position: static;
+    margin-bottom: 1rem;
+    justify-content: flex-start;
+  }
+  
+  .post-item-footer {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+  
+  .button-group {
+    width: 100%;
+  }
+  
+  .filter-btn {
+    flex: 1;
+    min-width: 80px;
+  }
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const categoryButtons = document.querySelectorAll('#category-filter .filter-btn');
+  const posts = document.querySelectorAll('.ctf-item');
+  
+  categoryButtons.forEach(button => {
+    button.addEventListener('click', function() {
+      // Update active state
+      categoryButtons.forEach(btn => btn.classList.remove('active'));
+      this.classList.add('active');
+      
+      const category = this.dataset.category;
+      
+      // Filter posts
+      posts.forEach(post => {
+        if (category === 'all' || post.dataset.ctfCategory === category) {
+          post.style.display = '';
+          post.style.animation = 'fadeIn 0.5s ease-in';
+        } else {
+          post.style.display = 'none';
+        }
+      });
+    });
+  });
+});
+</script>
