@@ -1,0 +1,69 @@
+# Site Settings
+title: CyberSec Insights
+description: In-depth cybersecurity analysis, threat intelligence, and practical tutorials
+author: Your Name
+email: your.email@example.com
+url: "https://yourusername.github.io"
+baseurl: "/cybersec-blog"
+
+# Build Settings
+markdown: kramdown
+highlighter: rouge
+permalink: /:categories/:year/:month/:day/:title/
+timezone: America/New_York
+
+# Plugins
+plugins:
+  - jekyll-feed
+  - jekyll-seo-tag
+  - jekyll-sitemap
+
+# Collections
+collections:
+  posts:
+    output: true
+    permalink: /blog/:year/:month/:day/:title/
+
+# Defaults
+defaults:
+  - scope:
+      path: ""
+      type: "posts"
+    values:
+      layout: "post"
+      comments: true
+
+# Navigation
+navigation:
+  - title: Home
+    url: /
+  - title: Malware Reports
+    url: /categories/malware-reports
+  - title: Threat Intelligence
+    url: /categories/threat-intelligence
+  - title: CTF Writeups
+    url: /categories/ctf-writeups
+  - title: Tutorials
+    url: /categories/tutorials
+  - title: About
+    url: /about
+
+# Social Links
+social:
+  twitter: yourusername
+  github: yourusername
+  linkedin: yourprofile
+
+# Analytics
+google_analytics: UA-XXXXXXXXX-X
+
+# RSS Feed
+feed:
+  path: feed.xml
+
+# Syntax Highlighting
+kramdown:
+  syntax_highlighter: rouge
+  syntax_highlighter_opts:
+    block:
+      line_numbers: true

@@ -1,0 +1,28 @@
+<!-- Using Utterances (GitHub Issues-based comments) -->
+<div class="comments-section">
+  <h3>Comments</h3>
+  <script src="https://utteranc.es/client.js"
+          repo="yourusername/cybersec-blog"
+          issue-term="pathname"
+          theme="github-dark"
+          crossorigin="anonymous"
+          async>
+  </script>
+</div>
+
+<!-- Alternative: Disqus -->
+<!--
+<div id="disqus_thread"></div>
+<script>
+var disqus_config = function () {
+  this.page.url = '{{ page.url | absolute_url }}';
+  this.page.identifier = '{{ page.id }}';
+};
+(function() {
+  var d = document, s = d.createElement('script');
+  s.src = 'https://your-disqus-shortname.disqus.com/embed.js';
+  s.setAttribute('data-timestamp', +new Date());
+  (d.head || d.body).appendChild(s);
+})();
+</script>
+-->
